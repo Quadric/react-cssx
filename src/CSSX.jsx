@@ -23,13 +23,15 @@ export default class CSSX extends React.Component {
   render() {
     this.state.sheet.add(this.props.styles);
 
-    return Children.only(React.cloneElement(this.props.children, {
-      'data-cssx': this.state.cssScopeId,
-    }));
+    return Children.map(this.props.children, (child) => {
+      return React.cloneElement(child, {
+        'data-cssx': this.state.cssScopeId,
+      });
+    });
   }
 };
 
 CSSX.propTypes = {
   styles: PropTypes.object.isRequired,
-  children: PropTypes.element.isRequired
+  children: PropTypes.arrayOf(PropTypes.element).isRequired
 };
